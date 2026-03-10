@@ -1,0 +1,376 @@
+---
+title: "Practice session for Econometrics for Public Policy"
+date: "April 9, 2025"
+author: "Donnie Osborne"
+fontsize: 10pt
+output:
+  beamer_presentation:
+    theme: Singapore
+  slidy_presentation: default
+  ioslides_presentation: default
+header-includes:
+- \usepackage{setspace}
+- \setstretch{1.25}
+- \setbeamertemplate{navigation symbols}{}
+- \setbeamertemplate{footline}[page number]
+---
+
+# Introduction
+
+## Introduction
+
+-   Donnie Osborne
+-   Affiliation: Graduate School of Economics, PhD
+-   Research area: Development Economics
+-   Office hours: By appointment
+    -   Contact by email: [\textcolor{blue}{osborne-donnie@g.ecc.u-tokyo.ac.jp}](mailto:osborne-donnie@g.ecc.u-tokyo.ac.jp){.email}
+
+## Course Information
+
+-   This course is a companion course of Econometrics for Public Policy by Professor Chen
+    -   Delivery type: Hybrid
+    -   Course time: Wed, period 3 (13:00 - 14:45)
+-   [\textcolor{blue}{Zoom meeting}](https://u-tokyo-ac-jp.zoom.us/j/3536507388?pwd=bDlXandsWVUyWEdjNXUyS0hZeE5BZz09) information:
+    -   Meeting ID: 353 650 7388
+-   GraSPP students who register for Econometrics for Public Policy **are required** to take this course
+
+## Course Information
+
+-   The goal of this course is to teach you how to use R to conduct empirical research
+-   Basically, we need **empirical toolkits**, **data**, and **econometrics software** to conduct empirical research
+-   In this course, you will learn how to do data cleaning work and conduct applied economic research using R
+    -   Basic commands
+      -   dplyr, tidyr, ggplot2
+    -   Advanced packages for causal analysis
+      -   estimatr, rdd, fixest, didimputation, did
+-   You can find the course materials in this [\textcolor{blue}{google drive}](https://drive.google.com/drive/folders/1QDYXm2Rw3eVAUK2MpiY9dOjMr558L5MR?usp=drive_link)
+-   Please use your ECCS Cloud Mail to get access
+
+## Course Logistics
+
+-   Professor Chen will teach the theoretical part of this course, so I will focus on the **R implementation**
+
+-   Basically, this course is divided into two parts:
+
+    -   Basic techniques for cleaning, analyzing, and plotting data
+    -   Empirical commands for causal inferences
+
+## Homework and Grading
+
+-   There are six homeworks this semester
+
+    1.  HW1 (4/16 - 5/7)
+    2.  HW2 (5/7 - 5/21)
+    3.  HW3 (5/21 - 6/4)
+    4.  HW4 (6/4 - 6/18)
+    5.  HW5 (6/18 - 7/2)
+    6.  HW6 (7/2 - 7/15)
+
+-   Please submit your homework to the grader by email
+
+    -   Grader: Jovey Mae DOMINGO
+    -   Email: [\textcolor{blue}{grasppmetrics2025@gmail.com}](mailto:grasppmetrics2025@gmail.com){.email}
+    -   If you have any problems with the homework, please contact the grader using the email above
+
+## Homework and Grading
+
+-   Please submit both the R script or Markdown file and compiled report or knit file
+-   Late submissions will be discounted by 50% per day 
+-   You can discuss homework with your classmates, but each individual must submit
+-   chatGPT: use it as you see fit; however, the code submitted must reflect the lectures
+-   **You won't get credit just because your code runs the correct output!**
+-   Course Evaluation:
+    -   HW1 through HW5 = 15% each
+    -   HW6 = 25%
+
+## Outline for Today
+
+-   Introduction to R
+-   Access to R
+-   Basics of R
+    -   Common functions
+    -   Interface
+    -   Type commands
+    -   Typical format
+    -   Some basic commands
+-   Homework 0
+
+# Introduction to R
+
+## Installation and setup of R
+
+1.  Install Rtools for Windows machines from [\textcolor{blue}{CRAN Rtools}](https://cran.r-project.org/bin/windows/Rtools/).
+
+2.  Install the latest version of R from [\textcolor{blue}{CRAN R}](https://cran.r-project.org).
+
+3.  Install the latest version of [\textcolor{blue}{RStudio}](https://www.rstudio.com/products/RStudio/). RStudio is the editor we’ll rely on, i.e. we’ll write code in RStudio which is subsequently sent to and run within R.
+
+## Introduction to R
+
+-   What is R?
+    -   R is a powerful programming language and software environment designed for *data analysis, statistics, and visualization*. It is widely used by *scientists, researchers, and data analysts* to make sense of large amounts of data.
+
+-   Why Learn R?
+    -   Free and Open Source
+    -   Great for Data Analysis
+    -   Strong Visualization Tools
+    -   Widely Used in Industry
+
+## What can you do with R?
+
+-   Data management
+    -   Importing and exporting data in various formats
+    -   Cleaning and transforming data
+    -   Merging and appending data sets
+-   Data visualization
+    -   Scatter plot, histograms, PDFs and CDFs
+    -   Non-parametric plots
+    -   Regression discontinuity and dynamic DiD
+-   Data analysis
+    -   Linear regression
+    -   Panel data analysis
+    -   Time series analysis
+    -   Causal inference and structural analysis
+
+## Example: Working hours per worker
+
+-   The data set provides estimates of average annual working hours per worker across countries between 1950 and 2017 ([\textcolor{blue}{Giattino, Ortiz-Ospina, and Roser, 2020}](https://ourworldindata.org/working-hours))
+
+-   We will use this example to illustrate some R functions
+
+    -   Data management
+        -   Import an Excel file into R
+        -   Create a new variable for weekly working hours per worker
+    -   Data visualization
+        -   Plot a time-series graph
+    -   Data analysis
+        -   Use linear regression to examine whether workers in East Asia work longer
+
+# RStudio
+
+## R's Interface
+
+1.  *Source Pane* is a text editor that will be referred to as R Script
+    -   You can write commands and save them, which is the main point of reproducibility
+
+2.  *Console Pane* is the place you write your line-by-line command 
+    -   It means you can only write a single command or a long paragraph of commands 
+    -   After you close the RStudio, the commands will not be saved unless you specified to do so 
+    -   Example: Symbol \> called prompt
+        -   Type 3 + 4, and press Enter
+
+3.  *Environment Pane* has several sub-windows 
+
+    -   Global Environment is the place where your data will be after importing data
+    -   History saves the commands you run in R console
+    -   Connections is where you connect to external databases
+  
+## R's Interface
+
+4.  *Files Pane* also has several sub-windows
+
+    -   You can manage files and folders as well as set the working directory
+    -   Plots is where your plots will appear
+    -   Packages is where you manage your R packages - you can install it from CRAN or other repositories
+    -   Help is where R stores documentations - you can open the help or introduction page of the respective packages as well as individual functions
+      -   Example: ?lm() (in stock package 'stats')
+
+## R Scripts and R Markdown
+
+1.  R Scripts
+
+    -   Rather than typing everything into the console, this allows you to type and save your commands.
+    -   This can be manually edited with comments.
+
+2.  R Markdown
+
+    -   A versatile format for analysis and tracking progression.
+    -   Helpful for reproducibility.
+    -   Can be used to create various dynamic output files.
+    
+# R Basics    
+    
+## Basics: packages and libraries
+
+\footnotesize
+
+**Packages** only have to be loaded once
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE, results = 'hide'}
+install.packages("tidyverse") # data transformation functions
+```
+
+**Libraries** have to be loaded each session
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+library(tidyr)
+library(dplyr)
+```
+
+## Basics: operators
+
+\footnotesize
+
+**Assignment**
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x <- 1
+y <- 2
+```
+
+**Arithmetic**
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x+y
+x*y
+```
+
+## Basics: operators
+
+\footnotesize
+
+**Comparison**
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x==y # equal
+x!=y # not equal
+x>y # greater than
+x<=y # less than or equal to
+```
+
+**Logical**
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+y>x && y==2*x # AND: both conditions must be true
+x > y || x < y # OR: either condition must be true
+```
+
+## Basics: data types
+
+\footnotesize
+
+**Numeric**
+
+*Double*: decimal numbers
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x <- 1.5
+typeof(x) # returns object type
+is.numeric(x) # returns if object is numeric or not
+```
+*Integer*: whole numbers
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x <- 1L # L is necessary to make it an integer
+```
+
+**Character**
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x <- "Hello"
+```
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x <- "5"
+```
+
+*Perform an arithmetic operation on x now*
+
+## Basics: data structure
+
+\footnotesize
+
+**Vectors**: all elements must be of the same type
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+x <- sample(1:10, 5, replace = TRUE)
+y <- sample(1:10, 5, replace = TRUE)
+year <- 1990:1994
+names <- c("payal", "amazon", "google", "microsoft", "alibaba")
+```
+
+**Lists**: can contain elements of different types and lengths
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+people <- list(name = c("bob", "jan", "mitsuha"), 
+               age = c(24, 36, 21), 
+               grade = c("1st", "2nd", "4th"))
+```
+
+**Accessing** elements in the list
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+people[1]
+people[[1]]
+people[[1]][1]
+```
+
+## Basics: data structure
+
+**Exercise**: 
+
+1. Create the following vectors
+    -   classes = classes you are taking
+    -   period = period of the corresponding classes
+    -   program = program you are in
+    -   year = year you are in
+    
+2. Store these vectors in a list
+
+3. Pull from the list the period of this class (output should = 3)
+
+
+## Basics: data structure
+
+\footnotesize
+
+**Data Frames**: two-dimensional of equal length (list of vectors)
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+df <- data.frame(names, year, x, y) # combines vectors into data frame
+tibble(df) # see the data frame
+```
+
+**Accessing** the vectors (*variables*) in the data frame
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+df$year
+```
+
+```{r, size = "tiny", echo = TRUE, eval = FALSE}
+df %>% pull(year) # piping: lecture 2
+```
+
+# Homework 0
+
+## Homework 0: Set up your own Script/RMarkdown
+
+\footnotesize
+
+1.  Load the library readxl
+
+```{r, size = "footnotesize", echo = TRUE, eval = FALSE}
+install.packages("readxl") 
+library(readxl)
+```
+
+2.  Import the data from the excel file and store it in the global environment
+
+```{r echo = TRUE, eval = FALSE, size = "small"}
+setwd("C://Users//...") # two forward slashes instead of back slash
+data <- read_excel(file.path("annual-working-hours-per-worker.xlsx"), 
+                   sheet = "annual-working-hours-per-worker")
+```
+
+3.  Skim the data with tibble: what are the data types of the variables?
+
+```{r echo = TRUE, eval = FALSE, size = "small"}
+tibble(data)
+```
+
+4.  Render the file
+
+```{r echo = TRUE, eval = FALSE, size = "small"}
+rmarkdown::render("file_name.R", "pdf_document")
+```
+  
